@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Hamro Organic</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            line-height: 24px;
+            background: white;
+            color: #555;
+        }
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+            border-collapse: collapse;
+        }
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align: top;
+        }
+        .invoice-box table tr.top table td.title {
+            font-size: 45px;
+            line-height: 45px;
+            color: #333;
+        }
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+        }
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+        .invoice-box table tr.total td:nth-child(2) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+        }
+    </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+<body>
+    {% include '_header.html' %}
+
+    <div class="container">
+        <div class="invoice-box">
+            <h1 style="text-align: center; color: #2E7D32; margin-bottom: 20px;">Payment Successful!</h1>
+            <table cellpadding="0" cellspacing="0">
+                <tr class="top">
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td class="title">
+                                    <span style="font-size: 2rem; color: #2E7D32;">Hamro Organic</span>
+                                </td>
+                                
+                                <td style="text-align: right;">
+                                    Invoice #: {{ order.order_number }}<br>
+                                    Created: {{ order.created_at }}<br>
+                                    Status: <span style="color: green; font-weight: bold;">{{ order.payment_status }}</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                
+                <tr class="information">
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td>
+                                    Hamro Organic Store.<br>
+                                    Bhadrapur-08, Jhapa<br>
+                                    Nepal
+                                </td>
+                                
+                                <td style="text-align: right;">
+                                    {{ order.customer_name }}<br>
+                                    {{ order.email }}<br>
+                                    {{ order.phone }}<br>
+                                    {{ order.street_address }}<br>
+                                    {{ order.city }}, {{ order.state }}
+                                    {% if order.postal_code and order.postal_code != 'N/A' %}
+                                    <br><em>Landmark: {{ order.postal_code }}</em>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                
+                <tr class="heading">
+                    <td>Item</td>
+                    <td style="text-align: right;">Price</td>
+                </tr>
+                
+                {% for item in items %}
+                <tr class="item">
+                    <td>{{ item.name }} (x{{ item.quantity }})</td>
+                    <td style="text-align: right;">Rs {{ "%.2f"|format(item.unit_price * item.quantity) }}</td>
+                </tr>
+                {% endfor %}
+                
+                <tr class="item last">
+                    <td>Delivery Charge</td>
+                    <td style="text-align: right;">Rs {{ "%.2f"|format(order.delivery_charge) }}</td>
+                </tr>
+                
+                <tr class="total">
+                    <td></td>
+                    <td style="text-align: right;">
+                       Grand Total: Rs {{ "%.2f"|format(order.total_amount) }}
+                    </td>
+                </tr>
+            </table>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <button onclick="window.print()" class="btn">Print Invoice</button>
+                <a href="/" class="btn" style="background: #ccc; color: #333; margin-left: 10px;">Return to Shop</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

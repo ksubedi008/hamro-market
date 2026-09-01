@@ -1,0 +1,87 @@
+:root {
+    --esewa-green: #60B742;
+    --esewa-dark: #121212;
+    --esewa-gray: #2C2C2C;
+}
+
+body {
+    background-color: var(--esewa-dark);
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.esewa-container {
+    background: var(--esewa-gray);
+    width: 900px;
+    border-radius: 8px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.esewa-left {
+    flex: 1;
+    padding: 40px;
+    background: linear-gradient(135deg, #1f1f1f, #121212);
+}
+
+.esewa-right {
+    flex: 1;
+    padding: 40px;
+    background: #1e1e1e;
+}
+
+.esewa-logo {
+    color: var(--esewa-green);
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.esewa-amount {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: #aaa;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    background: #333;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn-esewa {
+    width: 100%;
+    padding: 15px;
+    background: var(--esewa-green);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.btn-esewa:hover {
+    background: #509e35;
+}

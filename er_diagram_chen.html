@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ER Diagram</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+        }
+        .mermaid {
+            font-family: sans-serif;
+            transform: scale(1.2); /* Make it slightly bigger for a good screenshot */
+        }
+        h2 {
+            position: absolute;
+            bottom: 20px;
+            font-family: serif;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="mermaid">
+    graph LR
+        %% 1. Define the main backbone FIRST to force them into a single horizontal line
+        Customer[Customer] -- 1 --- places{places}
+        places -- N --- Order[Order]
+        Order -- N --- contains{contains}
+        contains -- M --- Product[Product]
+
+        %% 2. Define Attributes
+        c_id([_id_])
+        c_name([name])
+        c_phone([phone])
+
+        o_id([_id_])
+        o_amount([total_amount])
+        o_status([status])
+        o_date([created_at])
+
+        p_id([_id_])
+        p_name([name])
+        p_price([price])
+
+        %% 3. Connect Attributes
+        c_id --- Customer
+        c_name --- Customer
+        c_phone --- Customer
+
+        o_id --- Order
+        o_amount --- Order
+        o_status --- Order
+        o_date --- Order
+
+        p_id --- Product
+        p_name --- Product
+        p_price --- Product
+
+        %% Styling to match Chen's ER diagram standards
+        style Customer fill:#fff,stroke:#333,stroke-width:2px
+        style Order fill:#fff,stroke:#333,stroke-width:2px
+        style Product fill:#fff,stroke:#333,stroke-width:2px
+        
+        style places fill:#fff,stroke:#333,stroke-width:2px
+        style contains fill:#fff,stroke:#333,stroke-width:2px
+        
+        style c_id fill:#fff,stroke:#333,stroke-width:1px
+        style c_name fill:#fff,stroke:#333,stroke-width:1px
+        style c_phone fill:#fff,stroke:#333,stroke-width:1px
+        
+        style o_id fill:#fff,stroke:#333,stroke-width:1px
+        style o_amount fill:#fff,stroke:#333,stroke-width:1px
+        style o_status fill:#fff,stroke:#333,stroke-width:1px
+        style o_date fill:#fff,stroke:#333,stroke-width:1px
+        
+        style p_id fill:#fff,stroke:#333,stroke-width:1px
+        style p_name fill:#fff,stroke:#333,stroke-width:1px
+        style p_price fill:#fff,stroke:#333,stroke-width:1px
+    </div>
+    
+    <h2>Figure 4 ER diagram of BN Organic E-Commerce System</h2>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'base', 
+            themeVariables: { primaryColor: '#ffffff', lineColor: '#333333' },
+            flowchart: { curve: 'linear' }
+        });
+    </script>
+</body>
+</html>

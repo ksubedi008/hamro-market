@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DFD Level 1</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+        }
+        .mermaid {
+            font-family: sans-serif;
+            transform: scale(1.1); /* Slightly larger for screenshots */
+        }
+        h2 {
+            position: absolute;
+            bottom: 20px;
+            font-family: serif;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="mermaid">
+    flowchart LR
+        %% Define Entities (Rectangles)
+        C[Customer]
+        A[Admin]
+
+        %% Define Processes (Circles)
+        P1((1.0<br>Authentication))
+        P2((2.0<br>Order Management))
+        P3((3.0<br>Product & Inventory))
+
+        %% Define Data Stores (Cylinders)
+        D1[(D1 User Credentials)]
+        D2[(D2 Orders DB)]
+        D3[(D3 Products DB)]
+        
+        %% Invisible links to enforce order and prevent overlaps
+        C ~~~ A
+        P1 ~~~ P2
+        P2 ~~~ P3
+        D1 ~~~ D2
+        D2 ~~~ D3
+
+        %% Define Data Flows
+        C -->|login| P1
+        A -->|login| P1
+        P1 -->|Verify/Result| D1
+        
+        C -->|Cart / Checkout / Payment| P2
+        P2 -->|Confirm Booking| C
+        
+        A -->|Update Order Status| P2
+        P2 -->|Save Order| D2
+        
+        A -->|Add / Edit Products| P3
+        P3 -->|Update Product| D3
+        
+        P2 -->|Update Stock / Rollback| D3
+
+        %% Styling (Gray tones to match the sample)
+        style C fill:#888,stroke:#333,stroke-width:2px,color:#fff
+        style A fill:#888,stroke:#333,stroke-width:2px,color:#fff
+        
+        style P1 fill:#888,stroke:#333,stroke-width:2px,color:#fff
+        style P2 fill:#888,stroke:#333,stroke-width:2px,color:#fff
+        style P3 fill:#888,stroke:#333,stroke-width:2px,color:#fff
+        
+        style D1 fill:#eee,stroke:#333,stroke-width:2px
+        style D2 fill:#eee,stroke:#333,stroke-width:2px
+        style D3 fill:#eee,stroke:#333,stroke-width:2px
+    </div>
+    
+    <h2>Figure 6: DFD Level 1 of BN Organic E-Commerce System</h2>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'base', 
+            themeVariables: { primaryColor: '#ffffff', lineColor: '#333333' },
+            flowchart: { curve: 'linear' }
+        });
+    </script>
+</body>
+</html>

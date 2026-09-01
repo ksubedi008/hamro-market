@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History - Hamro Organic</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: var(--base-white);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--nature-green);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .section-title {
+            color: var(--leaf-green);
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: var(--leaf-green);
+            color: white;
+        }
+        .btn-bill {
+            color: var(--leaf-green);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn-bill:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+<body>
+    {% include '_header.html' %}
+
+    <div class="container profile-container">
+        <div class="profile-header">
+            <h2>Order History & Bills</h2>
+        </div>
+
+        {% if orders %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Order #</th>
+                    <th>Date</th>
+                    <th>Delivery Charge</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order['order_number'] }}</td>
+                    <td>{{ order['created_at'].split(' ')[0] }}</td>
+                    <td>Rs {{ "%.2f"|format(order['delivery_charge']) }}</td>
+                    <td>Rs {{ "%.2f"|format(order['total_amount']) }}</td>
+                    <td>{{ order['payment_status'] }}</td>
+                    <td><a href="/invoice/{{ order['order_number'] }}" class="btn-bill" target="_blank">View Bill</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>You haven't placed any orders yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Cart Drawer required for Cart link in dropdown -->
+    
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+"You are an expert full-stack developer. I have provided a PRD.md file detailing a Flask and Vanilla JS e-commerce project called BN Organic.
+
+Please execute the following steps in order:
+
+    Read the PRD.md carefully to understand the architecture, database schema, and color palette.
+
+    Generate a requirements.txt file including Flask.
+
+    Create the database.py script to initialize the SQLite database and populate it with seed data.
+
+    Create the app.py Flask server with all required routes.
+
+    Create all HTML templates inside the /templates folder and all CSS/JS inside the /static folder.
+
+    Ensure the UI strictly uses the color palette provided in the PRD and does NOT use any external CSS frameworks like Bootstrap or Tailwind (use pure custom CSS Flexbox/Grid).
+
+    Do not use Django; rely strictly on Flask and SQLite.
+
+    Once all files are created, run the application so I can test it locally."

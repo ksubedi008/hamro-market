@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Architecture (IPO)</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .column h3 {
+            font-weight: normal;
+            font-size: 16px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            color: #333;
+        }
+        .box {
+            border: 1px solid #333;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: #fafafa;
+            min-width: 180px;
+        }
+        .item {
+            border: 1px solid #333;
+            padding: 12px 20px;
+            text-align: center;
+            background-color: white;
+            font-size: 14px;
+        }
+        .arrow {
+            font-size: 24px;
+            color: #333;
+            margin-top: 30px; /* Align with boxes, below the title */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- INPUT COLUMN -->
+        <div class="column">
+            <h3>INPUT</h3>
+            <div class="box">
+                <div class="item">View Product</div>
+                <div class="item">Search Product</div>
+                <div class="item">Select Product</div>
+                <div class="item">Add to Cart</div>
+                <div class="item">Review Product</div>
+                <div class="item">Cart Details</div>
+                <div class="item">Feedback</div>
+            </div>
+        </div>
+
+        <div class="arrow">➔</div>
+
+        <!-- PROCESS COLUMN -->
+        <div class="column">
+            <h3>PROCESS</h3>
+            <div class="box">
+                <div class="item">Review Order</div>
+                <div class="item">Proceed to Payment</div>
+                <div class="item">Payment Details</div>
+                <div class="item">Complete Payment</div>
+                <div class="item">Generate Invoice</div>
+            </div>
+        </div>
+
+        <div class="arrow">➔</div>
+
+        <!-- OUTPUT COLUMN -->
+        <div class="column">
+            <h3>OUTPUT</h3>
+            <div class="box">
+                <div class="item">Shipment Details</div>
+                <div class="item">Send Invoice</div>
+                <div class="item">Complete Order</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

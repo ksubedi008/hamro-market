@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Hamro Organic</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    {% include '_header.html' %}
+
+    <div class="container" style="max-width: 900px; margin-top: 40px; min-height: 50vh;">
+        <h2 style="margin-bottom: 20px; color: var(--deep-forest-green);">My Account</h2>
+        
+        <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px;">
+            <h3 style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Personal Information</h3>
+            <p><strong>Name:</strong> {{ customer.name }}</p>
+            <p><strong>Email:</strong> {{ customer.email }}</p>
+            <p><strong>Phone Number:</strong> {{ customer.phone }}</p>
+            <a href="/password" class="btn" style="margin-top: 15px; display: inline-block;">Change Password</a>
+        </div>
+
+        <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h3 style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Order History</h3>
+            {% if orders %}
+            <table class="table" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: var(--soft-oatmeal-cream); text-align: left;">
+                        <th style="padding: 12px; border-bottom: 2px solid #ddd;">Order #</th>
+                        <th style="padding: 12px; border-bottom: 2px solid #ddd;">Date</th>
+                        <th style="padding: 12px; border-bottom: 2px solid #ddd;">Status</th>
+                        <th style="padding: 12px; border-bottom: 2px solid #ddd;">Total Amount</th>
+                        <th style="padding: 12px; border-bottom: 2px solid #ddd;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 12px;">{{ order.id }}</td>
+                        <td style="padding: 12px;">{{ order.created_at[:10] }}</td>
+                        <td style="padding: 12px;">
+                            <span style="padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; 
+                                {% if order.status == 'PENDING' %}background: #fff3cd; color: #856404;
+                                {% elif order.status in ('PAID', 'PAID_LATE') %}background: #d4edda; color: #155724;
+                                {% else %}background: #f8d7da; color: #721c24;{% endif %}">
+                                {{ order.status }}
+                            </span>
+                        </td>
+                        <td style="padding: 12px;">Rs {{ "%.2f"|format(order.total_amount) }}</td>
+                        <td style="padding: 12px;"><a href="/invoice/{{ order.id }}" style="color: var(--leaf-green); text-decoration: none;">View Invoice</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>You haven't placed any orders yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% include '_footer.html' %}
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

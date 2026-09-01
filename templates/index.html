@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamro Organic Store</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script>window.isLoggedIn = {% if 'customer_id' in session %}true{% else %}false{% endif %};</script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+<body>
+    {% include '_header.html' %}
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Join The Organic Movement!</h1>
+            <p>Choose healthier options for you and the planet. Together, we can build a sustainable future one organic choice at a time.</p>
+            <br>
+            <button class="btn" onclick="if(!window.isLoggedIn) window.location.href='/login'; else document.querySelector('.container').scrollIntoView({behavior: 'smooth'});">SHOP NOW</button>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="product-grid" id="products-container" style="margin-top: 20px;">
+            <!-- Products injected here via main.js -->
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    
+
+    {% include '_footer.html' %}
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Hamro Organic</title>
+    <link rel="stylesheet" href="/static/css/admin.css?v=2">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+<body>
+    <header class="admin-header">
+        <div class="logo">🌿 Hamro Organic Admin</div>
+        <div><a href="/sdmin/logout" style="color: white; text-decoration: none;">Logout</a></div>
+    </header>
+
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <ul>
+                <li><a href="#" onclick="showSection('overview')" id="nav-overview" style="background: #E2E8F0;">Dashboard</a></li>
+                <li><a href="#" onclick="showSection('products')" id="nav-products">Products</a></li>
+                <li><a href="#" onclick="showSection('categories')" id="nav-categories">Categories</a></li>
+                <li><a href="#" onclick="showSection('orders')" id="nav-orders">Orders</a></li>
+                <li><a href="#" onclick="showSection('customers')" id="nav-customers">Customers</a></li>
+            </ul>
+        </aside>
+
+        <main class="admin-main">
+            <div id="overview-section">
+                <h2 style="margin-bottom: 20px;">Overview</h2>
+                
+                <div class="metrics-grid" id="admin-metrics">
+                    <div class="metric-card">
+                        <h3>Total Revenue</h3>
+                        <div class="value" id="total-revenue">Rs 0.00</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Total Orders</h3>
+                        <div class="value" id="total-orders">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Low Stock Alerts</h3>
+                        <div class="value" id="low-stock" style="color: #E67E22;">0</div>
+                    </div>
+                </div>
+
+                <h2 style="margin-bottom: 20px;">Recent Orders</h2>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-orders">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="products-section" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Manage Products</h2>
+                    <button class="btn btn-primary" onclick="openProductModal()">+ Add Product</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-table-body">
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="categories-section" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Manage Categories</h2>
+                    <button class="btn btn-primary" onclick="openCategoryModal()">+ Add Category</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Slug</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categories-table-body">
+                    </tbody>
+                </table>
+            </div>
+            <div id="orders-section" style="display: none;">
+                <h2 style="margin-bottom: 20px;">All Orders</h2>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="all-orders-table-body">
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="customers-section" style="display: none;">
+                <h2 style="margin-bottom: 20px;">All Customers</h2>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customers-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="product-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 30px; border-radius: 8px; width: 400px; max-width: 90%;">
+            <h3 id="product-modal-title" style="margin-bottom: 20px;">Add Product</h3>
+            <form id="product-form" onsubmit="saveProduct(event)">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" id="p-id">
+                <div style="margin-bottom: 10px;"><label>Name</label><input type="text" id="p-name" required style="width: 100%; padding: 8px;" oninput="updateSlug('p-name', 'p-slug')"></div>
+                <div style="margin-bottom: 10px;"><label>Slug</label>
+                    <div style="display: flex; gap: 5px;">
+                        <input type="text" id="p-slug" required style="width: 100%; padding: 8px; background-color: #f3f4f6;" readonly>
+                        <button type="button" class="btn btn-secondary" onclick="toggleSlugLock('p-slug')" style="padding: 0 10px; font-size: 1.2rem;" title="Unlock Slug Edit">🔒</button>
+                    </div>
+                </div>
+                <div style="margin-bottom: 10px;"><label>Category</label><select id="p-category" required style="width: 100%; padding: 8px;"></select></div>
+                <div style="margin-bottom: 10px;"><label>Price</label><input type="number" id="p-price" step="0.01" required style="width: 100%; padding: 8px;"></div>
+                <div style="margin-bottom: 10px;"><label>Stock</label><input type="number" id="p-stock" required style="width: 100%; padding: 8px;"></div>
+                <div style="margin-bottom: 10px;"><label>Image File</label><input type="file" id="p-image" accept="image/png, image/jpeg, image/webp" style="width: 100%; padding: 8px;"></div>
+                <div style="margin-bottom: 20px;"><label>Description</label><textarea id="p-desc" required style="width: 100%; padding: 8px; height: 80px;"></textarea></div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="category-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 30px; border-radius: 8px; width: 400px; max-width: 90%;">
+            <h3 style="margin-bottom: 20px;">Add Category</h3>
+            <form id="category-form" onsubmit="saveCategory(event)">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div style="margin-bottom: 10px;"><label>Name</label><input type="text" id="c-name" required style="width: 100%; padding: 8px;" oninput="updateSlug('c-name', 'c-slug')"></div>
+                <div style="margin-bottom: 20px;"><label>Slug</label>
+                    <div style="display: flex; gap: 5px;">
+                        <input type="text" id="c-slug" required style="width: 100%; padding: 8px; background-color: #f3f4f6;" readonly>
+                        <button type="button" class="btn btn-secondary" onclick="toggleSlugLock('c-slug')" style="padding: 0 10px; font-size: 1.2rem;" title="Unlock Slug Edit">🔒</button>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="edit-category-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 30px; border-radius: 8px; width: 400px; max-width: 90%;">
+            <h3 style="margin-bottom: 20px;">Edit Category</h3>
+            <form id="edit-category-form" onsubmit="updateCategory(event)">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" id="edit-c-id">
+                <div style="margin-bottom: 10px;"><label>Name</label><input type="text" id="edit-c-name" required style="width: 100%; padding: 8px;" oninput="updateSlug('edit-c-name', 'edit-c-slug')"></div>
+                <div style="margin-bottom: 20px;"><label>Slug</label>
+                    <div style="display: flex; gap: 5px;">
+                        <input type="text" id="edit-c-slug" required style="width: 100%; padding: 8px; background-color: #f3f4f6;" readonly>
+                        <button type="button" class="btn btn-secondary" onclick="toggleSlugLock('edit-c-slug')" style="padding: 0 10px; font-size: 1.2rem;" title="Unlock Slug Edit">🔒</button>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditCategoryModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="customer-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 30px; border-radius: 8px; width: 800px; max-width: 90%; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <h3>Customer Details</h3>
+                <button type="button" class="btn btn-secondary" style="padding: 5px 10px;" onclick="closeCustomerModal()">X</button>
+            </div>
+            <div id="customer-info" style="margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 5px;"></div>
+            
+            <h4>Order History</h4>
+            <table class="admin-table" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="customer-orders-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/static/js/admin.js?v=5"></script>
+</body>
+</html>
