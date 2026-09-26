@@ -1,0 +1,36 @@
+# Environments
+.env
+.env.*
+
+# Databases
+*.db
+*.sqlite3
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+env/
+.venv/
+
+# Testing Cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Personal / Document Files
+*.pdf
+*.docx
+*.doc
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
