@@ -1,12 +1,12 @@
 # Product Requirements Document (PRD)
-**Project Name:** BN Organic Store
+**Project Name:** Hamro Market
 **Version:** 1.0
 **Date:** August 28, 2026
 
 ---
 
 ## 1. Executive Summary
-BN Organic is a custom-coded e-commerce web application designed for buying and selling certified organic groceries, pure honey, natural juices, and sustainable pantry items. The system operates on a lightweight Python backend using Flask, a local SQLite database, and vanilla HTML/CSS/JS for the frontend. It features a fully integrated checkout flow with a simulated eSewa payment gateway interface and a hidden administrative dashboard for inventory and order management.
+Hamro Market is a custom-coded e-commerce web application designed for buying and selling certified organic groceries, pure honey, natural juices, and sustainable pantry items. The system operates on a lightweight Python backend using Flask, a local SQLite database, and vanilla HTML/CSS/JS for the frontend. It features a fully integrated checkout flow with a simulated eSewa payment gateway interface and a hidden administrative dashboard for inventory and order management.
 
 ---
 
@@ -32,7 +32,7 @@ The design system utilizes a grounded, organic theme to reflect sustainability a
 
 ## 4. Directory Structure
 ```text
-bn-organic/
+hamro-market/
 │
 ├── app.py                     # Main Flask Application & API Routes
 ├── database.py                # SQLite schema creation & seed data

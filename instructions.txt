@@ -1,4 +1,4 @@
-"You are an expert full-stack developer. I have provided a PRD.md file detailing a Flask and Vanilla JS e-commerce project called BN Organic.
+"You are an expert full-stack developer. I have provided a PRD.md file detailing a Flask and Vanilla JS e-commerce project called Hamro Market.
 
 Please execute the following steps in order:
 
